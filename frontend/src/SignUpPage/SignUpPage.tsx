@@ -15,7 +15,7 @@ const SignUpPage = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        "http://localhost:8000/api/signup/",
+        "https://ghostpavilion2025-production.up.railway.app/api/signup/",
         formData
       );
       if (response.status === 201) {
