@@ -75,8 +75,17 @@
 .success-msg {
   color: #4caf50;
   font-weight: bold;
+  font-size: 1.1rem;
+  margin: 1rem 0;
 }
 
 .error-msg {
-  color: #ff4d4f;
+  color: #ff3333;
+  font-weight: bold;
+  font-size: 1.1rem;
+  margin: 1rem 0;
+  background-color: rgba(255, 51, 51, 0.1);
+  padding: 1rem;
+  border-radius: 4px;
+  border: 1px solid #ff3333;
 }

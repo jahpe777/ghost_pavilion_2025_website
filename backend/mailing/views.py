@@ -49,7 +49,7 @@ class SignUpCreateView(generics.CreateAPIView):
 
                             <!-- Main Content -->
                             <tr>
-                                <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif;">
+                                <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif; text-align: center;">
                                     <h2 style="margin: 0 0 20px 0; color: #ff6600; font-size: 24px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-family: Verdana, Arial, sans-serif;">
                                         WELCOME TO THE PAVILION
                                     </h2>
@@ -62,7 +62,7 @@ class SignUpCreateView(generics.CreateAPIView):
                                         You're now part of our inner circle. Here's what you can expect from us:
                                     </p>
 
-                                    <ul style="margin: 0 0 20px 0; padding-left: 20px; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                    <ul style="margin: 0 0 20px 0; padding: 0; list-style: none; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
                                         <li style="margin-bottom: 10px;">🎵 Early access to new releases</li>
                                         <li style="margin-bottom: 10px;">🎟️ Show announcements and exclusive ticket access</li>
                                         <li style="margin-bottom: 10px;">👕 Special discounts on merch drops</li>
