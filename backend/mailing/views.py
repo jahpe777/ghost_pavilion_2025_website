@@ -58,19 +58,19 @@ class SignUpCreateView(generics.CreateAPIView):
                                         Thank you for joining the Ghost Pavilion mailing list!
                                     </p>
 
-                                    <p style="margin: 0 0 20px 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                    <p style="margin: 0 0 20px 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif; text-align: center;">
                                         You're now part of our inner circle. Here's what you can expect from us:
                                     </p>
 
-                                    <ul style="margin: 0 0 20px 0; padding: 0; list-style: none; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif; text-align: center;">
-                                        <li style="margin-bottom: 10px; text-align: center;">🎵 Early access to new releases</li>
-                                        <li style="margin-bottom: 10px; text-align: center;">🎟️ Show announcements and exclusive ticket access</li>
-                                        <li style="margin-bottom: 10px; text-align: center;">👕 Special discounts on merch drops</li>
-                                        <li style="margin-bottom: 10px; text-align: center;">🎬 Behind-the-scenes content and music videos</li>
-                                        <li style="margin-bottom: 10px; text-align: center;">✨ Exclusive updates you won't find anywhere else</li>
-                                    </ul>
+                                    <div style="margin: 0 0 20px 0; text-align: center;">
+                                        <p style="margin: 0 0 10px 0; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">🎵 Early access to new releases</p>
+                                        <p style="margin: 0 0 10px 0; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">🎟️ Show announcements and exclusive ticket access</p>
+                                        <p style="margin: 0 0 10px 0; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">👕 Special discounts on merch drops</p>
+                                        <p style="margin: 0 0 10px 0; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">🎬 Behind-the-scenes content and music videos</p>
+                                        <p style="margin: 0 0 10px 0; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">✨ Exclusive updates you won't find anywhere else</p>
+                                    </div>
 
-                                    <p style="margin: 20px 0 0 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                    <p style="margin: 20px 0 0 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif; text-align: center;">
                                         Stay tuned for our next release coming soon.
                                     </p>
                                 </td>
