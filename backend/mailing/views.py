@@ -62,12 +62,12 @@ class SignUpCreateView(generics.CreateAPIView):
                                         You're now part of our inner circle. Here's what you can expect from us:
                                     </p>
 
-                                    <ul style="margin: 0 0 20px 0; padding: 0; list-style: none; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        <li style="margin-bottom: 10px;">🎵 Early access to new releases</li>
-                                        <li style="margin-bottom: 10px;">🎟️ Show announcements and exclusive ticket access</li>
-                                        <li style="margin-bottom: 10px;">👕 Special discounts on merch drops</li>
-                                        <li style="margin-bottom: 10px;">🎬 Behind-the-scenes content and music videos</li>
-                                        <li style="margin-bottom: 10px;">✨ Exclusive updates you won't find anywhere else</li>
+                                    <ul style="margin: 0 0 20px 0; padding: 0; list-style: none; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif; text-align: center;">
+                                        <li style="margin-bottom: 10px; text-align: center;">🎵 Early access to new releases</li>
+                                        <li style="margin-bottom: 10px; text-align: center;">🎟️ Show announcements and exclusive ticket access</li>
+                                        <li style="margin-bottom: 10px; text-align: center;">👕 Special discounts on merch drops</li>
+                                        <li style="margin-bottom: 10px; text-align: center;">🎬 Behind-the-scenes content and music videos</li>
+                                        <li style="margin-bottom: 10px; text-align: center;">✨ Exclusive updates you won't find anywhere else</li>
                                     </ul>
 
                                     <p style="margin: 20px 0 0 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
