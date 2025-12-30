@@ -104,7 +104,7 @@ Ghost Pavilion is a music project with an integrated web presence, email marketi
 - Sign Up
 
 **Footer Links (Simplified to 4 essential links):**
-1. 🎵 Toneden (https://fanlink.tv/ghostpavilion) - Music icon
+1. 🎵 Toneden (https://link.ghostpavilion.com/no-way-to-love) - Music icon
 2. 📷 Instagram (@ghost_pavilion)
 3. 🎵 TikTok (@ghostpavilion)
 4. ✉️ Email (info@ghostpavilion.com)
@@ -170,7 +170,7 @@ Music is distributed across all major platforms via standard distribution servic
 - Bandcamp
 
 ### Toneden Smart Link Integration
-**URL:** https://fanlink.tv/ghostpavilion
+**URL:** https://link.ghostpavilion.com/no-way-to-love
 
 **Purpose:** Single link that directs fans to Ghost Pavilion music on their preferred streaming platform
 
@@ -354,7 +354,7 @@ Features:
 
 ### Music Distribution
 ```
-Smart Link: Toneden (fanlink.tv/ghostpavilion)
+Smart Link: Toneden (https://link.ghostpavilion.com/no-way-to-love)
 Platforms: All major streaming services
 Management: Via music distributor
 ```
@@ -596,7 +596,7 @@ ghost-pavilion-website-2025/
 
 ### Public URLs
 - **Website:** https://ghostpavilion.com
-- **Toneden Smart Link:** https://fanlink.tv/ghostpavilion
+- **Toneden Smart Link:** https://link.ghostpavilion.com/no-way-to-love
 - **Instagram:** https://www.instagram.com/ghost_pavilion
 - **TikTok:** https://www.tiktok.com/@ghostpavilion
 - **Email:** info@ghostpavilion.com

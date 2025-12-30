@@ -12,7 +12,7 @@ const Footer: React.FC = () => {
   const socialLinks = [
     {
       icon: <FaMusic />,
-      url: "https://fanlink.tv/ghostpavilion",
+      url: "https://link.ghostpavilion.com/no-way-to-love",
       label: "Toneden"
     },
     {

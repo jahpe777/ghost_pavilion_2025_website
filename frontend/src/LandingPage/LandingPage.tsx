@@ -30,7 +30,7 @@ const LandingPage = () => {
         }}
       >
         <a
-          href="https://fanlink.tv/ghostpavilion"
+          href="https://link.ghostpavilion.com/no-way-to-love"
           target="_blank"
           rel="noopener noreferrer"
           className="listen-link"
