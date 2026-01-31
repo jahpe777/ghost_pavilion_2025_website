@@ -4,7 +4,9 @@ from sendgrid.helpers.mail import Mail
 from django.conf import settings
 from .models import SignUp
 from .serializers import SignUpSerializer
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
+from django.views import View
+from django.shortcuts import get_object_or_404
 
 class SignUpCreateView(generics.CreateAPIView):
     queryset = SignUp.objects.all()
@@ -109,3 +111,45 @@ class SignUpCreateView(generics.CreateAPIView):
             print(f"Email sent to {recipient_email} with status code: {response.status_code}")
         except Exception as e:
             print(f"Error sending email: {e}")
+
+
+class UnsubscribeView(View):
+    """Handle unsubscribe requests via GET (clicked from email link)"""
+
+    def get(self, request, token):
+        try:
+            subscriber = get_object_or_404(SignUp, unsubscribe_token=token)
+            subscriber.is_subscribed = False
+            subscriber.save()
+
+            # Return a styled confirmation page
+            html_content = """
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>Unsubscribed - Ghost Pavilion</title>
+            </head>
+            <body style="margin: 0; padding: 0; font-family: Verdana, Arial, sans-serif; background: linear-gradient(135deg, #ff00ff, #ff0033, #ff6600, #ff0080); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
+                <div style="max-width: 500px; margin: 40px auto; padding: 40px; background-color: rgba(0, 0, 0, 0.8); border-radius: 8px; text-align: center;">
+                    <h1 style="color: #ffffff; font-size: 28px; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;">
+                        GHOST PAVILION
+                    </h1>
+                    <p style="color: #ffffff; font-size: 18px; margin-bottom: 20px;">
+                        You've been unsubscribed.
+                    </p>
+                    <p style="color: #cccccc; font-size: 14px; margin-bottom: 30px;">
+                        We're sorry to see you go. You will no longer receive emails from us.
+                    </p>
+                    <a href="https://ghostpavilion.com" style="display: inline-block; background: linear-gradient(135deg, #ff0080, #ff6600); color: #ffffff; padding: 12px 30px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase;">
+                        VISIT WEBSITE
+                    </a>
+                </div>
+            </body>
+            </html>
+            """
+            return HttpResponse(html_content)
+
+        except Exception as e:
+            return HttpResponse("Invalid unsubscribe link.", status=400)

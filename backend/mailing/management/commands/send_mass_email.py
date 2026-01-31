@@ -18,8 +18,8 @@ class Command(BaseCommand):
         message_content = options['message']
         preview_mode = options['preview']
 
-        # Get all subscribers
-        subscribers = SignUp.objects.all()
+        # Get all active subscribers (is_subscribed=True)
+        subscribers = SignUp.objects.filter(is_subscribed=True)
         total_subscribers = subscribers.count()
 
         if total_subscribers == 0:
@@ -50,11 +50,14 @@ class Command(BaseCommand):
 
         for subscriber in subscribers:
             try:
+                # Build personalized email with unsubscribe link
+                personalized_html = self._build_email_template(message_content, subscriber.unsubscribe_token)
+
                 message = Mail(
                     from_email=settings.FROM_EMAIL,
                     to_emails=subscriber.email,
                     subject=subject,
-                    html_content=html_content
+                    html_content=personalized_html
                 )
 
                 sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
@@ -77,8 +80,11 @@ class Command(BaseCommand):
         if failed_count > 0:
             self.stdout.write(self.style.WARNING(f'Failed: {failed_count}'))
 
-    def _build_email_template(self, message_content):
-        """Build the HTML email template matching Ghost Pavilion style"""
+    def _build_email_template(self, message_content, unsubscribe_token):
+        """Build the HTML email template matching Ghost Pavilion style with unsubscribe link"""
+        # Use the backend API URL for unsubscribe
+        unsubscribe_url = f"https://postgres-production-e00b.up.railway.app/unsubscribe/{unsubscribe_token}/"
+
         return f"""
         <!DOCTYPE html>
         <html>
@@ -113,8 +119,11 @@ class Command(BaseCommand):
                                     <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
                                         GHOST PAVILION © 2025
                                     </p>
-                                    <p style="margin: 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                    <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
                                         <a href="https://ghostpavilion.com" style="color: #ff6600; text-decoration: none;">ghostpavilion.com</a>
+                                    </p>
+                                    <p style="margin: 0; color: #666666; font-size: 10px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                        <a href="{unsubscribe_url}" style="color: #666666; text-decoration: underline;">Unsubscribe</a>
                                     </p>
                                 </td>
                             </tr>
