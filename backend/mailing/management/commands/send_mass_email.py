@@ -124,8 +124,8 @@ class Command(BaseCommand):
                                         You can pre save it now so it is waiting for you the moment it goes live.
                                     </p>
 
-                                    <p style="margin: 0 0 25px 0;">
-                                        <a href="{presave_url}" style="color: #ff6600; font-weight: bold; text-decoration: none; text-transform: uppercase; letter-spacing: 2px;">PRE SAVE NOW</a>
+                                    <p style="margin: 0 0 25px 0; text-align: center;">
+                                        <a href="{presave_url}" style="display: inline-block; background: linear-gradient(135deg, #ff0080, #ff6600); color: #ffffff; padding: 14px 32px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase;">PRE SAVE NOW</a>
                                     </p>
 
                                     <p style="margin: 0 0 25px 0;">
@@ -134,10 +134,6 @@ class Command(BaseCommand):
 
                                     <p style="margin: 0 0 25px 0;">
                                         Thank you for being here and for supporting Ghost Pavilion. You are part of the core group behind this project, and you will continue to receive early updates, releases, and behind the scenes moments moving forward.
-                                    </p>
-
-                                    <p style="margin: 0 0 25px 0;">
-                                        I truly appreciate you being here.
                                     </p>
 
                                     <p style="margin: 0;">
