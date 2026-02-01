@@ -14,9 +14,40 @@ class SignUpCreateView(generics.CreateAPIView):
 
     def create(self, request, *args, **kwargs):
         print("Received data:", request.data)
+        email = request.data.get('email', '').lower().strip()
+        name = request.data.get('name', '')
+
+        # Check if email already exists (including unsubscribed users)
+        try:
+            existing_user = SignUp.objects.get(email=email)
+            # If they were unsubscribed, re-subscribe them
+            if not existing_user.is_subscribed:
+                existing_user.is_subscribed = True
+                existing_user.name = name  # Update name in case it changed
+                existing_user.save()
+                self.send_welcome_email(email)
+                return JsonResponse({
+                    'message': 'Welcome back! You have been re-subscribed.',
+                    'email': email
+                }, status=200)
+            else:
+                # Already subscribed
+                return JsonResponse({
+                    'message': 'You are already subscribed!',
+                    'email': email
+                }, status=200)
+        except SignUp.DoesNotExist:
+            # New user, proceed with normal creation
+            pass
+
         serializer = self.get_serializer(data=request.data)
         if not serializer.is_valid():
             print("Validation errors:", serializer.errors)
+            return JsonResponse({
+                'error': 'Invalid data',
+                'details': serializer.errors
+            }, status=400)
+
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):

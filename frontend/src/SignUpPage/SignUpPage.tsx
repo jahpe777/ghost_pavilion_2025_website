@@ -18,14 +18,21 @@ const SignUpPage = () => {
         "https://ghostpavilion2025-production.up.railway.app/api/signup/",
         formData
       );
-      if (response.status === 201) {
+      if (response.status === 201 || response.status === 200) {
         setSuccess(true);
         setError("");
         setFormData({ name: "", email: "" });
       }
     } catch (err: any) {
       console.error(err);
-      setError("Failed to sign up. Please try again.");
+      if (err.response?.data?.error) {
+        setError(err.response.data.error);
+      } else if (err.response?.data?.email) {
+        setError("This email is already subscribed.");
+      } else {
+        setError("Failed to sign up. Please try again.");
+      }
+      setSuccess(false);
     }
   };
 
