@@ -85,8 +85,8 @@ class Command(BaseCommand):
         # Use the backend API URL for unsubscribe
         unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
 
-        # Pre-save link
-        presave_url = "https://distrokid.com/hyperfollow/ghostpavilion/no-way-to-love"
+        # Pre-save link (ToneDen)
+        presave_url = "https://link.ghostpavilion.com/no-way-to-love"
 
         return f"""
         <!DOCTYPE html>
