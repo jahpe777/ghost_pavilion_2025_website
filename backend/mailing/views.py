@@ -25,7 +25,7 @@ class SignUpCreateView(generics.CreateAPIView):
                 existing_user.is_subscribed = True
                 existing_user.name = name  # Update name in case it changed
                 existing_user.save()
-                self.send_welcome_email(email)
+                self.send_welcome_email(email, existing_user.unsubscribe_token)
                 return JsonResponse({
                     'message': 'Welcome back! You have been re-subscribed.',
                     'email': email
@@ -55,11 +55,14 @@ class SignUpCreateView(generics.CreateAPIView):
         sign_up_instance = serializer.save()
 
         # Send a welcome email via SendGrid
-        self.send_welcome_email(sign_up_instance.email)
+        self.send_welcome_email(sign_up_instance.email, sign_up_instance.unsubscribe_token)
 
-    def send_welcome_email(self, recipient_email):
+    def send_welcome_email(self, recipient_email, unsubscribe_token):
+        # Build unsubscribe URL
+        unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
+
         # Construct the HTML email template
-        html_content = """
+        html_content = f"""
         <!DOCTYPE html>
         <html>
         <head>
@@ -115,8 +118,11 @@ class SignUpCreateView(generics.CreateAPIView):
                                     <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
                                         GHOST PAVILION © 2025
                                     </p>
-                                    <p style="margin: 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                    <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
                                         <a href="https://ghostpavilion.com" style="color: #ff6600; text-decoration: none;">ghostpavilion.com</a>
+                                    </p>
+                                    <p style="margin: 0; color: #666666; font-size: 10px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
+                                        <a href="{unsubscribe_url}" style="color: #666666; text-decoration: underline;">Unsubscribe</a>
                                     </p>
                                 </td>
                             </tr>
