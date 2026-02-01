@@ -85,6 +85,9 @@ class Command(BaseCommand):
         # Use the backend API URL for unsubscribe
         unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
 
+        # Pre-save link
+        presave_url = "https://distrokid.com/hyperfollow/ghostpavilion/no-way-to-love"
+
         return f"""
         <!DOCTYPE html>
         <html>
@@ -96,7 +99,7 @@ class Command(BaseCommand):
             <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 0; padding: 0;">
                 <tr>
                     <td style="padding: 40px 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: rgba(0, 0, 0, 0.7); border-radius: 8px; overflow: hidden;">
+                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: rgba(0, 0, 0, 0.85); border-radius: 8px; overflow: hidden;">
                             <!-- Header -->
                             <tr>
                                 <td style="padding: 40px 30px; text-align: center; background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(255, 0, 51, 0.3), rgba(255, 102, 0, 0.3));">
@@ -108,8 +111,38 @@ class Command(BaseCommand):
 
                             <!-- Main Content -->
                             <tr>
-                                <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 16px; line-height: 1.6;">
-                                    {message_content}
+                                <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 16px; line-height: 1.8;">
+                                    <p style="margin: 0 0 25px 0;">
+                                        I wanted to share something I have been working on with you.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        My new single, <strong>No Way to Love</strong>, drops on <strong>February 20th</strong>.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        You can pre save it now so it is waiting for you the moment it goes live.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        <a href="{presave_url}" style="color: #ff6600; font-weight: bold; text-decoration: none; text-transform: uppercase; letter-spacing: 2px;">PRE SAVE NOW</a>
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        As a thank you for being on the mailing list, you will also receive the music video ahead of the public release as a special bonus.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        Thank you for being here and for supporting Ghost Pavilion. You are part of the core group behind this project, and you will continue to receive early updates, releases, and behind the scenes moments moving forward.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        I truly appreciate you being here.
+                                    </p>
+
+                                    <p style="margin: 0;">
+                                        – Ghost Pavilion
+                                    </p>
                                 </td>
                             </tr>
 
