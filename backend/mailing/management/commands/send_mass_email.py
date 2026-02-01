@@ -83,7 +83,7 @@ class Command(BaseCommand):
     def _build_email_template(self, message_content, unsubscribe_token):
         """Build the HTML email template matching Ghost Pavilion style with unsubscribe link"""
         # Use the backend API URL for unsubscribe
-        unsubscribe_url = f"https://postgres-production-e00b.up.railway.app/unsubscribe/{unsubscribe_token}/"
+        unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
 
         return f"""
         <!DOCTYPE html>
