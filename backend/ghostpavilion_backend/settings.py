@@ -93,4 +93,4 @@ CORS_ALLOWED_ORIGINS = [
 ]
 
 SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
-FROM_EMAIL = 'info@ghostpavilion.com'
+FROM_EMAIL = 'Ghost Pavilion <info@ghostpavilion.com>'
