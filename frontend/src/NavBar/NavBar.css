@@ -3,6 +3,8 @@
   padding: 10px;
   justify-content: space-between;
   align-items: center;
+  position: relative;
+  z-index: 10;
 }
 
 .ghost-title {
