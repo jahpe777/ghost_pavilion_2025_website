@@ -73,17 +73,34 @@ const EPKPage = () => {
         <div className="epk-bio">
           <h3>Bio</h3>
           <p>
-            Ghost Pavilion is a Los Angeles–based indie project blending moody
-            textures, dreamy guitars, and cinematic atmospheres to explore themes
-            of memory, grief, and emotional distance. The project lives in the
-            space between intimacy and detachment, pairing slow-burning grooves
-            with melancholic melodies and subtle electronic elements. Influenced
-            by artists like Beach House, The National, and the darker, more
-            experimental edges of classic art pop, Ghost Pavilion leans into
-            emotional restraint rather than big dramatic gestures. The music
-            often reflects the quiet weight of loss and the strange numbness that
-            can follow it. Each release builds toward a more immersive and
-            emotionally focused sonic world.
+            Ghost Pavilion is the solo project of James Higgs, a Los
+            Angeles–based artist crafting dreamy, atmospheric indie music shaped
+            by emotion, texture, and cinematic storytelling. Following his time
+            in the critically acclaimed band Spanish Prisoners and years
+            recording at Brooklyn's renowned Seaside Lounge Studios with engineer
+            Charles Burst, Higgs relocated to Los Angeles and launched Ghost
+            Pavilion as a vehicle for deeper creative freedom.
+          </p>
+          <p>
+            The project has been featured in PopMatters, The 405, and
+            Psychedelic Baby Magazine, with the self-titled debut LP mastered by
+            GRAMMY-nominated engineer John Baldwin (The White Stripes, Iggy Pop,
+            Sly Stone). Releases like the <em>Traces and the Oblivion</em> EP,
+            "Bleed on Sunset," and the full-length <em>Ghost Pavilion</em> have
+            drawn praise for their lush, multi-layered soundscapes — blending
+            dancy synth-laden rhythms, hazy guitars, and dreamlike atmospheres
+            with genre influences ranging from golden era disco to intricate jazz
+            ensembles.
+          </p>
+          <p>
+            Ghost Pavilion lives in the space between intimacy and detachment,
+            pairing slow-burning grooves with melancholic melodies and subtle
+            electronic elements. Influenced by artists like Beach House, The
+            National, and the darker, more experimental edges of classic art pop,
+            the music leans into emotional restraint rather than big dramatic
+            gestures — often reflecting the quiet weight of loss and the strange
+            numbness that can follow it. Each release builds toward a more
+            immersive and emotionally focused sonic world.
           </p>
         </div>
       </motion.section>
