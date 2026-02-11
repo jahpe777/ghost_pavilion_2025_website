@@ -1,8 +1,7 @@
 import { motion } from "framer-motion";
 import "./EPKPage.css";
 
-import gpImage from "../Images/GP_300DPI.jpeg";
-import gpFalloutImage from "../Images/GP_Fallout_300DPI.jpeg";
+import albumArt from "../Images/Frame_26.png";
 import pressPhoto1 from "../Images/GhostPavilion1byLaurenChang.JPG";
 import pressPhoto2 from "../Images/GhostPavilion2byLaurenChang.JPG";
 
@@ -196,25 +195,10 @@ const EPKPage = () => {
             </div>
           </div>
           <div className="epk-media-item">
-            <img src={gpImage} alt="Ghost Pavilion album art" />
+            <img src={albumArt} alt="Ghost Pavilion album art" />
             <div className="epk-media-info">
               <span>Album Art</span>
-              <a href={gpImage} download="ghost-pavilion-album-art.jpeg">
-                Download
-              </a>
-            </div>
-          </div>
-          <div className="epk-media-item">
-            <img
-              src={gpFalloutImage}
-              alt="Ghost Pavilion - Fallout cover art"
-            />
-            <div className="epk-media-info">
-              <span>Cover Art — Fallout</span>
-              <a
-                href={gpFalloutImage}
-                download="ghost-pavilion-fallout-cover.jpeg"
-              >
+              <a href={albumArt} download="ghost-pavilion-album-art.png">
                 Download
               </a>
             </div>
