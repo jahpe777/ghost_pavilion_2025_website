@@ -252,7 +252,7 @@ const EPKPage = () => {
             Facebook
           </a>
           <a
-            href="https://www.tiktok.com/@ghost_pavilion"
+            href="https://www.tiktok.com/@ghostpavilion"
             target="_blank"
             rel="noopener noreferrer"
           >
