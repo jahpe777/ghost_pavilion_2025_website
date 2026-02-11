@@ -3,7 +3,6 @@ import "./EPKPage.css";
 
 import albumArt from "../Images/Frame_26.png";
 import pressPhoto1 from "../Images/GhostPavilion1byLaurenChang.JPG";
-import pressPhoto2 from "../Images/GhostPavilion2byLaurenChang.JPG";
 
 const EPKPage = () => {
   return (
@@ -194,19 +193,10 @@ const EPKPage = () => {
         </p>
         <div className="epk-media-grid">
           <div className="epk-media-item">
-            <img src={pressPhoto1} alt="Ghost Pavilion press photo 1 by Lauren Chang" />
+            <img src={pressPhoto1} alt="Ghost Pavilion press photo by Lauren Chang" />
             <div className="epk-media-info">
-              <span>Press Photo 1</span>
+              <span>Press Photo</span>
               <a href={pressPhoto1} download="ghost-pavilion-press-photo-1.jpg">
-                Download
-              </a>
-            </div>
-          </div>
-          <div className="epk-media-item">
-            <img src={pressPhoto2} alt="Ghost Pavilion press photo 2 by Lauren Chang" />
-            <div className="epk-media-info">
-              <span>Press Photo 2</span>
-              <a href={pressPhoto2} download="ghost-pavilion-press-photo-2.jpg">
                 Download
               </a>
             </div>
