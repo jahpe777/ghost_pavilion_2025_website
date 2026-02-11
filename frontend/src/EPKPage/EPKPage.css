@@ -15,7 +15,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.35);
+  background: #1a0a0a;
   z-index: -1;
   pointer-events: none;
 }
@@ -207,13 +207,13 @@
 .epk-links {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 
 .epk-links a {
   display: inline-block;
-  padding: 0.4rem 0.8rem;
-  font-size: 0.75rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
   letter-spacing: 1.5px;
   text-transform: uppercase;
   color: #fff;
