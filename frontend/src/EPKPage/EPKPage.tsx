@@ -3,6 +3,8 @@ import "./EPKPage.css";
 
 import gpImage from "../Images/GP_300DPI.jpeg";
 import gpFalloutImage from "../Images/GP_Fallout_300DPI.jpeg";
+import pressPhoto1 from "../Images/GhostPavilion1byLaurenChang.JPG";
+import pressPhoto2 from "../Images/GhostPavilion2byLaurenChang.JPG";
 
 const EPKPage = () => {
   return (
@@ -176,10 +178,28 @@ const EPKPage = () => {
         </p>
         <div className="epk-media-grid">
           <div className="epk-media-item">
-            <img src={gpImage} alt="Ghost Pavilion press photo" />
+            <img src={pressPhoto1} alt="Ghost Pavilion press photo 1 by Lauren Chang" />
             <div className="epk-media-info">
-              <span>Press Photo</span>
-              <a href={gpImage} download="ghost-pavilion-press-photo.jpeg">
+              <span>Press Photo 1</span>
+              <a href={pressPhoto1} download="ghost-pavilion-press-photo-1.jpg">
+                Download
+              </a>
+            </div>
+          </div>
+          <div className="epk-media-item">
+            <img src={pressPhoto2} alt="Ghost Pavilion press photo 2 by Lauren Chang" />
+            <div className="epk-media-info">
+              <span>Press Photo 2</span>
+              <a href={pressPhoto2} download="ghost-pavilion-press-photo-2.jpg">
+                Download
+              </a>
+            </div>
+          </div>
+          <div className="epk-media-item">
+            <img src={gpImage} alt="Ghost Pavilion album art" />
+            <div className="epk-media-info">
+              <span>Album Art</span>
+              <a href={gpImage} download="ghost-pavilion-album-art.jpeg">
                 Download
               </a>
             </div>
@@ -213,39 +233,39 @@ const EPKPage = () => {
         <h2>Links</h2>
         <div className="epk-links">
           <a
-            href="https://open.spotify.com/artist/ghost-pavilion"
+            href="https://open.spotify.com/artist/6e1gGZhzHrDzdI3voe9FxV"
             target="_blank"
             rel="noopener noreferrer"
           >
             Spotify
           </a>
           <a
-            href="https://music.apple.com"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Apple Music
-          </a>
-          <a
-            href="https://www.youtube.com/@ghostpavilion"
+            href="https://www.youtube.com/@ghost_pavilion"
             target="_blank"
             rel="noopener noreferrer"
           >
             YouTube
           </a>
           <a
-            href="https://www.instagram.com/ghostpavilion"
+            href="https://www.instagram.com/ghost_pavilion/"
             target="_blank"
             rel="noopener noreferrer"
           >
             Instagram
           </a>
           <a
-            href="https://ghostpavilion.com"
+            href="https://www.facebook.com/GhostPavilion"
             target="_blank"
             rel="noopener noreferrer"
           >
-            Website
+            Facebook
+          </a>
+          <a
+            href="https://www.tiktok.com/@ghost_pavilion"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            TikTok
           </a>
         </div>
       </motion.section>
