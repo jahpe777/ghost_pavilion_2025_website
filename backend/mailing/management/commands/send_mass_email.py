@@ -12,11 +12,32 @@ class Command(BaseCommand):
         parser.add_argument('subject', type=str, help='Email subject line')
         parser.add_argument('message', type=str, help='Email message content (can be HTML)')
         parser.add_argument('--preview', action='store_true', help='Preview emails without sending')
+        parser.add_argument('--to', type=str, help='Send test email to a single address instead of all subscribers')
 
     def handle(self, *args, **options):
         subject = options['subject']
         message_content = options['message']
         preview_mode = options['preview']
+        test_to = options.get('to')
+
+        if test_to:
+            # Test mode: send to single address with a dummy unsubscribe token
+            import uuid
+            self.stdout.write(self.style.WARNING(f'\n=== TEST MODE - Sending only to {test_to} ===\n'))
+            personalized_html = self._build_email_template(message_content, uuid.uuid4())
+            message = Mail(
+                from_email=settings.FROM_EMAIL,
+                to_emails=test_to,
+                subject=f'[TEST] {subject}',
+                html_content=personalized_html
+            )
+            sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+            response = sg.send(message)
+            if response.status_code == 202:
+                self.stdout.write(self.style.SUCCESS(f'✓ Test email sent to {test_to}'))
+            else:
+                self.stdout.write(self.style.ERROR(f'✗ Failed (status: {response.status_code})'))
+            return
 
         # Get all active subscribers (is_subscribed=True)
         subscribers = SignUp.objects.filter(is_subscribed=True)
@@ -93,6 +114,9 @@ class Command(BaseCommand):
         # Use the backend API URL for unsubscribe
         unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
 
+        # Music video link
+        music_video_url = "https://youtu.be/5Sdu-ANN16Q"
+
         # If message_content doesn't contain HTML tags, wrap it in a styled paragraph
         # and convert newlines to <br> tags
         if '<p' not in message_content and '<div' not in message_content:
@@ -127,9 +151,23 @@ class Command(BaseCommand):
                             <!-- Main Content -->
                             <tr>
                                 <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif; font-size: 16px; line-height: 1.8;">
-                                    {content_html}
+                                    <p style="margin: 0 0 25px 0;">
+                                        I promised you would get this first.
+                                    </p>
 
-                                    <p style="margin: 25px 0 0 0;">
+                                    <p style="margin: 0 0 25px 0;">
+                                        The music video for <strong>No Way to Love</strong> is here, and you are getting it before anyone else.
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0; text-align: center;">
+                                        <a href="{music_video_url}" style="display: inline-block; background: linear-gradient(135deg, #ff0080, #ff6600); color: #ffffff; padding: 14px 32px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase;">WATCH NOW</a>
+                                    </p>
+
+                                    <p style="margin: 0 0 25px 0;">
+                                        Thank you for being here and for supporting Ghost Pavilion. It means everything.
+                                    </p>
+
+                                    <p style="margin: 0;">
                                         – Ghost Pavilion
                                     </p>
                                 </td>
