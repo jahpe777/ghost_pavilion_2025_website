@@ -7,6 +7,8 @@ from .serializers import SignUpSerializer
 from django.http import JsonResponse, HttpResponse
 from django.views import View
 from django.shortcuts import get_object_or_404
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 class SignUpCreateView(generics.CreateAPIView):
     queryset = SignUp.objects.all()
@@ -190,3 +192,91 @@ class UnsubscribeView(View):
 
         except Exception as e:
             return HttpResponse("Invalid unsubscribe link.", status=400)
+
+
+@method_decorator(csrf_exempt, name='dispatch')
+class SendMassEmailView(View):
+    """Protected endpoint to trigger the music video mass email send."""
+
+    ADMIN_KEY = "gp-mv-send-2026"
+
+    def post(self, request):
+        # Verify secret key
+        key = request.headers.get('X-Admin-Key', '')
+        if key != self.ADMIN_KEY:
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+
+        music_video_url = "https://youtu.be/5Sdu-ANN16Q"
+        presave_url = "https://link.ghostpavilion.com/no-way-to-love"
+        subject = "No Way to Love \u2014 Music Video"
+
+        subscribers = SignUp.objects.filter(is_subscribed=True)
+        total = subscribers.count()
+        sent = 0
+        failed = 0
+        errors = []
+
+        for subscriber in subscribers:
+            unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{subscriber.unsubscribe_token}/"
+
+            html = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background:linear-gradient(135deg,#ff00ff,#ff0033,#ff6600,#ff0080);">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;">
+    <tr><td style="padding:40px 20px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:rgba(0,0,0,0.85);border-radius:8px;overflow:hidden;">
+        <tr><td style="padding:40px 30px;text-align:center;background:linear-gradient(135deg,rgba(255,0,255,0.3),rgba(255,0,51,0.3),rgba(255,102,0,0.3));">
+          <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
+        </td></tr>
+        <tr><td style="padding:40px 30px;color:#ffffff;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
+          <p style="margin:0 0 25px 0;">I promised you would get this first.</p>
+          <p style="margin:0 0 25px 0;">The music video for <strong>No Way to Love</strong> is here, and you are getting it before anyone else.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">
+            <a href="{music_video_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">WATCH NOW</a>
+          </p>
+          <p style="margin:0 0 25px 0;">You can also pre-save the song on Spotify so it is waiting for you the moment it goes live.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">
+            <a href="{presave_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">PRE-SAVE ON SPOTIFY</a>
+          </p>
+          <p style="margin:0;">Thank you for being here and for supporting Ghost Pavilion.</p>
+        </td></tr>
+        <tr><td style="padding:30px;text-align:center;background-color:rgba(0,0,0,0.5);border-top:2px solid #ff6600;">
+          <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
+          <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="https://ghostpavilion.com" style="color:#ff6600;text-decoration:none;">ghostpavilion.com</a>
+          </p>
+          <p style="margin:0;color:#666666;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="{unsubscribe_url}" style="color:#666666;text-decoration:underline;">Unsubscribe</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>"""
+
+            try:
+                message = Mail(
+                    from_email=settings.FROM_EMAIL,
+                    to_emails=subscriber.email,
+                    subject=subject,
+                    html_content=html
+                )
+                sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
+                response = sg.send(message)
+                if response.status_code == 202:
+                    sent += 1
+                else:
+                    failed += 1
+                    errors.append(f"{subscriber.email}: status {response.status_code}")
+            except Exception as e:
+                failed += 1
+                errors.append(f"{subscriber.email}: {str(e)}")
+
+        return JsonResponse({
+            'total': total,
+            'sent': sent,
+            'failed': failed,
+            'errors': errors
+        })
