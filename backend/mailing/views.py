@@ -206,9 +206,8 @@ class SendMassEmailView(View):
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-        music_video_url = "https://youtu.be/5Sdu-ANN16Q"
-        presave_url = "https://link.ghostpavilion.com/no-way-to-love"
-        subject = "No Way to Love \u2014 Music Video"
+        listen_url = "https://link.ghostpavilion.com/no-way-to-love"
+        subject = "\u201cNo Way to Love\u201d out now!"
 
         subscribers = SignUp.objects.filter(is_subscribed=True)
         total = subscribers.count()
@@ -230,14 +229,9 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#ffffff;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
-          <p style="margin:0 0 25px 0;">I promised you would get this first.</p>
-          <p style="margin:0 0 25px 0;">The music video for <strong>No Way to Love</strong> is here, and you are getting it before anyone else.</p>
+          <p style="margin:0 0 25px 0;">\u201cNo Way to Love\u201d is out today!</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{music_video_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">WATCH NOW</a>
-          </p>
-          <p style="margin:0 0 25px 0;">You can also pre-save the song on Spotify so it is waiting for you the moment it goes live.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{presave_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">PRE-SAVE ON SPOTIFY</a>
+            <a href="{listen_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">LISTEN NOW</a>
           </p>
           <p style="margin:0;">Thank you for being here and for supporting Ghost Pavilion.</p>
         </td></tr>
