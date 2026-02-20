@@ -200,6 +200,12 @@ class SendMassEmailView(View):
 
     ADMIN_KEY = "gp-mv-send-2026"
 
+    def get(self, request):
+        key = request.headers.get('X-Admin-Key', '')
+        if key != self.ADMIN_KEY:
+            return JsonResponse({'error': 'Unauthorized'}, status=403)
+        return JsonResponse({'subject': '\u201cNo Way to Love\u201d out now!', 'body': '\u201cNo Way to Love\u201d is out today!', 'button': 'LISTEN NOW'})
+
     def post(self, request):
         # Verify secret key
         key = request.headers.get('X-Admin-Key', '')
