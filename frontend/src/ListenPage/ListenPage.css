@@ -44,3 +44,29 @@
   transform: scaleY(1.0225);
   transform-origin: top;
 }
+
+.spotify-embed-section {
+  flex: 1 1 300px;
+  max-width: 350px;
+  display: flex;
+  justify-content: center;
+}
+
+.spotify-wrapper {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, filter 0.3s ease;
+  box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+}
+
+.spotify-wrapper:hover {
+  transform: scale(1.03);
+  box-shadow: 0 0 12px #ff6600, 0 0 24px #ff6600, 0 0 36px #ff6600;
+  filter: brightness(1.2);
+}
+
+.spotify-wrapper iframe {
+  display: block;
+  border: none;
+}
