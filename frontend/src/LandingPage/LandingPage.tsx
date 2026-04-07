@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./LandingPage.css";
 import video from "../Videos/Website-Video.mp4";
-import image from "../Images/Frame_26.png";
+import image from "../Images/Frame_24.png";
 
 const LandingPage = () => {
   return (
@@ -30,7 +30,7 @@ const LandingPage = () => {
         }}
       >
         <a
-          href="https://link.ghostpavilion.com/no-way-to-love"
+          href="https://link.ghostpavilion.com/hide-from-it-all"
           target="_blank"
           rel="noopener noreferrer"
           className="listen-link"
@@ -40,7 +40,7 @@ const LandingPage = () => {
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            LISTEN NOW
+            PRE-SAVE
           </motion.div>
 
           <motion.img
