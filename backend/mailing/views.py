@@ -204,7 +204,11 @@ class SendMassEmailView(View):
         key = request.headers.get('X-Admin-Key', '')
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
-        return JsonResponse({'subject': '\u201cNo Way to Love\u201d out now!', 'body': '\u201cNo Way to Love\u201d is out today!', 'button': 'LISTEN NOW'})
+        subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
+        return JsonResponse({
+            'total': subscribers.count(),
+            'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
+        })
 
     def post(self, request):
         # Verify secret key
