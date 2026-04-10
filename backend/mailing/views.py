@@ -216,8 +216,8 @@ class SendMassEmailView(View):
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-        listen_url = "https://link.ghostpavilion.com/no-way-to-love"
-        subject = "\u201cNo Way to Love\u201d out now!"
+        presave_url = "https://link.ghostpavilion.com/hide-from-it-all"
+        subject = "Pre-save \u201cHide From It All\u201d \u2014 here\u2019s why it matters"
 
         subscribers = SignUp.objects.filter(is_subscribed=True)
         total = subscribers.count()
@@ -239,11 +239,15 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#ffffff;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
-          <p style="margin:0 0 25px 0;">\u201cNo Way to Love\u201d is out today!</p>
+          <p style="margin:0 0 25px 0;">My new single <strong>\u201cHide From It All\u201d</strong> is coming soon, and I want to ask you for one small thing before it drops.</p>
+          <p style="margin:0 0 25px 0;">Pre-save it.</p>
+          <p style="margin:0 0 25px 0;">Here is why it matters more than you might think. When you pre-save a song, it gets automatically added to your library the moment it goes live. That means on release day, streams start immediately and those first 24 hours are everything. The algorithms use early momentum to decide which songs get pushed to new listeners and editorial playlists. Every pre-save directly helps that.</p>
+          <p style="margin:0 0 25px 0;">It takes less than a minute. Tap the button, pick your platform, and you are done.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{listen_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">LISTEN NOW</a>
+            <a href="{presave_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">PRE-SAVE NOW</a>
           </p>
-          <p style="margin:0;">Thank you for being here and for supporting Ghost Pavilion.</p>
+          <p style="margin:0 0 25px 0;">Shortly before the release, I will also be sharing a performance of one of my older songs. This will only be shared with mailing list members exclusively and will not be posted anywhere else.</p>
+          <p style="margin:0;">I appreciate every single one of you.</p>
         </td></tr>
         <tr><td style="padding:30px;text-align:center;background-color:rgba(0,0,0,0.5);border-top:2px solid #ff6600;">
           <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
