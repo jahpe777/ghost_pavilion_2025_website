@@ -216,8 +216,10 @@ class SendMassEmailView(View):
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-        presave_url = "https://link.ghostpavilion.com/hide-from-it-all"
-        subject = "Pre-save \u201cHide From It All\u201d \u2014 here\u2019s why it matters"
+        video_url = "https://youtu.be/ZfZh0i5j8uE"
+        video_id = "ZfZh0i5j8uE"
+        thumbnail_url = f"https://img.youtube.com/vi/{video_id}/maxresdefault.jpg"
+        subject = "Your exclusive Ghost Pavilion performance"
 
         subscribers = SignUp.objects.filter(is_subscribed=True)
         total = subscribers.count()
@@ -239,15 +241,15 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#ffffff;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
-          <p style="margin:0 0 25px 0;">My new single <strong>\u201cHide From It All\u201d</strong> is coming soon, and I want to ask you for one small thing before it drops.</p>
-          <p style="margin:0 0 25px 0;">Pre-save it.</p>
-          <p style="margin:0 0 25px 0;">Here is why it matters more than you might think. When you pre-save a song, it gets automatically added to your library the moment it goes live. That means on release day, streams start immediately and those first 24 hours are everything. The algorithms use early momentum to decide which songs get pushed to new listeners and editorial playlists. Every pre-save directly helps that.</p>
-          <p style="margin:0 0 25px 0;">It takes less than a minute. Tap the button, pick your platform, and you are done.</p>
+          <p style="margin:0 0 25px 0;">I promised you this, and here it is.</p>
+          <p style="margin:0 0 25px 0;">As a thank you for being on this mailing list, here is an exclusive performance that will not be shared anywhere else. This is just for you.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{presave_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">PRE-SAVE NOW</a>
+            <a href="{video_url}" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;">
+              <img src="{thumbnail_url}" alt="Watch exclusive performance" width="100%" style="max-width:520px;display:block;border-radius:8px;border:3px solid #ff6600;" />
+              <span style="display:block;margin-top:16px;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">WATCH NOW</span>
+            </a>
           </p>
-          <p style="margin:0 0 25px 0;">Shortly before the release, I will also be sharing a performance of one of my older songs. This will only be shared with mailing list members exclusively and will not be posted anywhere else.</p>
-          <p style="margin:0;">I appreciate every single one of you.</p>
+          <p style="margin:0;">I hope you enjoy it.</p>
         </td></tr>
         <tr><td style="padding:30px;text-align:center;background-color:rgba(0,0,0,0.5);border-top:2px solid #ff6600;">
           <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
