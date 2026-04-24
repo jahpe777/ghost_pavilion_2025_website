@@ -3,6 +3,13 @@ import "./ListenPage.css";
 
 const bandcampEmbeds = [
   {
+    title: "hide-from-it-all",
+    src: "https://bandcamp.com/EmbeddedPlayer/track=447394841/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/transparent=true/",
+    link: "https://ghostpavilion.bandcamp.com/track/hide-from-it-all",
+    text: "Hide From It All by Ghost Pavilion",
+    type: "track",
+  },
+  {
     title: "no-way-to-love",
     src: "https://bandcamp.com/EmbeddedPlayer/track=1999556700/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/transparent=true/",
     link: "https://ghostpavilion.bandcamp.com/track/no-way-to-love",
