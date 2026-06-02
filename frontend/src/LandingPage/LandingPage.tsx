@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./LandingPage.css";
 import video from "../Videos/Website-Video.mp4";
-import image from "../Images/Frame 25.png";
+import image from "../Images/Frame_25.png";
 
 const LandingPage = () => {
   return (
