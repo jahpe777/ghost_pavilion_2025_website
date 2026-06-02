@@ -13,7 +13,8 @@
   margin: 3px 0px;
   font-weight: normal;
   letter-spacing: 2px;
-  text-shadow: 0 0 12px magenta;
+  color: #111111;
+  text-shadow: none;
 }
 
 .navlinks {
@@ -30,13 +31,13 @@
 }
 
 a {
-  color: white;
+  color: #111111;
   text-decoration: none;
 }
 
 a:hover {
-  color: #ff6600;
-  text-shadow: 0 0 10px #000, 0 0 15px #ff6600;
+  color: #111111;
+  text-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
   transition: color 0.3s ease, text-shadow 0.3s ease;
 }
 

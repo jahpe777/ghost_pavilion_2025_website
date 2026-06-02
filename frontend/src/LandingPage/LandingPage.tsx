@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import "./LandingPage.css";
 import video from "../Videos/Website-Video.mp4";
-import image from "../Images/Frame_24.png";
+import image from "../Images/Frame 25.png";
 
 const LandingPage = () => {
   return (
@@ -25,7 +25,7 @@ const LandingPage = () => {
         transition={{ duration: 1.5, ease: "easeOut" }}
         whileHover={{
           scale: 1.03,
-          filter: "drop-shadow(0 0 10px #ff00ff)",
+          filter: "drop-shadow(0 0 10px rgba(0, 0, 0, 0.3))",
           transition: { duration: 0.5, ease: "easeInOut" },
         }}
       >

@@ -51,13 +51,13 @@ img {
   pointer-events: none;
   background: repeating-conic-gradient(
     from 0deg,
-    rgba(255, 0, 255, 0.04) 0deg 30deg,
-    rgba(255, 51, 0, 0.04) 30deg 60deg,
-    rgba(255, 128, 0, 0.04) 60deg 90deg
+    rgba(0, 0, 0, 0.02) 0deg 30deg,
+    rgba(0, 0, 0, 0.01) 30deg 60deg,
+    rgba(0, 0, 0, 0.02) 60deg 90deg
   );
   animation: spinTrippy 30s linear infinite;
-  mix-blend-mode: screen;
-  opacity: 0.4;
+  mix-blend-mode: multiply;
+  opacity: 0.3;
 }
 
 @keyframes spinTrippy {
@@ -95,19 +95,20 @@ img {
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: uppercase;
-  color: white;
-  background-color: #ff6600;
-  border: 2px solid #ff6600;
+  color: #ffffff;
+  background-color: #111111;
+  border: 2px solid #111111;
   border-radius: 50px;
   transition: all 0.3s ease;
   cursor: pointer;
-  box-shadow: 0 0 15px rgba(255, 102, 0, 0.5);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
   margin-bottom: 20px;
 }
 
 .listen-now-button:hover {
-  background-color: #ff8533;
-  border-color: #ff8533;
+  background-color: transparent;
+  color: #111111;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
 }
 
 @media screen and (max-width: 415px) {
