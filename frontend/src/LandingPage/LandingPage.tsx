@@ -30,7 +30,7 @@ const LandingPage = () => {
         }}
       >
         <a
-          href="https://link.ghostpavilion.com/hide-from-it-all"
+          href="https://link.ghostpavilion.com/new-god"
           target="_blank"
           rel="noopener noreferrer"
           className="listen-link"
