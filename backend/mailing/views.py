@@ -206,6 +206,7 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
         return JsonResponse({
+            'subject': 'Your exclusive Ghost Pavilion performance',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -216,8 +217,9 @@ class SendMassEmailView(View):
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-        listen_url = "https://link.ghostpavilion.com/hide-from-it-all"
-        subject = "\u201cHide From It All\u201d is out now!"
+        video_url = "https://youtu.be/hq_Ea_gBNuY"
+        thumbnail_url = "https://img.youtube.com/vi/hq_Ea_gBNuY/maxresdefault.jpg"
+        subject = "Your exclusive Ghost Pavilion performance"
 
         subscribers = SignUp.objects.filter(is_subscribed=True)
         total = subscribers.count()
@@ -231,28 +233,31 @@ class SendMassEmailView(View):
             html = f"""<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background:linear-gradient(135deg,#ff00ff,#ff0033,#ff6600,#ff0080);">
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;">
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ebebeb;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;background-color:#ebebeb;">
     <tr><td style="padding:40px 20px;">
-      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:rgba(0,0,0,0.85);border-radius:8px;overflow:hidden;">
-        <tr><td style="padding:40px 30px;text-align:center;background:linear-gradient(135deg,rgba(255,0,255,0.3),rgba(255,0,51,0.3),rgba(255,102,0,0.3));">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d0d0d0;">
+        <tr><td style="padding:40px 30px;text-align:center;background-color:#111111;">
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
-        <tr><td style="padding:40px 30px;color:#ffffff;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
-          <p style="margin:0 0 25px 0;"><strong>\u201cHide From It All\u201d</strong> is out now!</p>
-          <p style="margin:0 0 25px 0;">You can listen on any streaming platform you like. Tap the button below and pick your favorite.</p>
+        <tr><td style="padding:40px 30px;color:#111111;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
+          <p style="margin:0 0 25px 0;">This one is for you and no one else.</p>
+          <p style="margin:0 0 25px 0;">I recorded this performance exclusively for this mailing list. It will not be posted publicly or shared anywhere outside of this email.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{listen_url}" style="display:inline-block;background:linear-gradient(135deg,#ff0080,#ff6600);color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">LISTEN NOW</a>
+            <a href="{video_url}" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;">
+              <img src="{thumbnail_url}" alt="Watch exclusive performance" width="100%" style="max-width:520px;display:block;border-radius:8px;border:2px solid #111111;" />
+              <span style="display:block;margin-top:16px;background-color:#111111;color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">WATCH NOW</span>
+            </a>
           </p>
-          <p style="margin:0;">Thank you for your support.</p>
+          <p style="margin:0;">Thank you for being here.</p>
         </td></tr>
-        <tr><td style="padding:30px;text-align:center;background-color:rgba(0,0,0,0.5);border-top:2px solid #ff6600;">
-          <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
-          <p style="margin:0 0 10px 0;color:#999999;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
-            <a href="https://ghostpavilion.com" style="color:#ff6600;text-decoration:none;">ghostpavilion.com</a>
+        <tr><td style="padding:30px;text-align:center;background-color:#ebebeb;border-top:2px solid #111111;">
+          <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
+          <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="https://ghostpavilion.com" style="color:#111111;text-decoration:none;">ghostpavilion.com</a>
           </p>
-          <p style="margin:0;color:#666666;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
-            <a href="{unsubscribe_url}" style="color:#666666;text-decoration:underline;">Unsubscribe</a>
+          <p style="margin:0;color:#888888;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="{unsubscribe_url}" style="color:#888888;text-decoration:underline;">Unsubscribe</a>
           </p>
         </td></tr>
       </table>
