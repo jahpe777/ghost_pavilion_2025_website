@@ -206,7 +206,7 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
         return JsonResponse({
-            'subject': 'Your exclusive Ghost Pavilion performance',
+            'subject': 'One small thing before “New God” drops',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -217,9 +217,8 @@ class SendMassEmailView(View):
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
 
-        video_url = "https://youtu.be/hq_Ea_gBNuY"
-        thumbnail_url = "https://img.youtube.com/vi/hq_Ea_gBNuY/maxresdefault.jpg"
-        subject = "Your exclusive Ghost Pavilion performance"
+        presave_url = "https://link.ghostpavilion.com/new-god"
+        subject = "One small thing before “New God” drops"
 
         subscribers = SignUp.objects.filter(is_subscribed=True)
         total = subscribers.count()
@@ -241,13 +240,13 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#111111;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
-          <p style="margin:0 0 25px 0;">This one is for you and no one else.</p>
-          <p style="margin:0 0 25px 0;">I recorded this performance exclusively for this mailing list. It will not be posted publicly or shared anywhere outside of this email.</p>
+          <p style="margin:0 0 25px 0;">My new single <strong>&ldquo;New God&rdquo;</strong> drops on <strong>July 17th</strong>, and I want to ask you for one small thing before it does.</p>
+          <p style="margin:0 0 25px 0;">Pre-save it.</p>
+          <p style="margin:0 0 25px 0;">As an independent artist, the first 24 hours of a release are everything. When you pre-save a song, it gets added to your library automatically the moment it goes live. That means streams start on day one, and those early numbers are what the algorithms use to decide whether to push a song to new listeners. Every single pre-save directly affects that.</p>
+          <p style="margin:0 0 25px 0;">There are no labels, no promo budgets, no shortcuts on this end. Just the music and the people who choose to support it. You are those people, and this takes less than a minute of your time.</p>
+          <p style="margin:0 0 25px 0;">Tap the button, pick your platform, and you are done.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{video_url}" target="_blank" rel="noopener noreferrer" style="display:inline-block;text-decoration:none;">
-              <img src="{thumbnail_url}" alt="Watch exclusive performance" width="100%" style="max-width:520px;display:block;border-radius:8px;border:2px solid #111111;" />
-              <span style="display:block;margin-top:16px;background-color:#111111;color:#ffffff;padding:14px 32px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">WATCH NOW</span>
-            </a>
+            <a href="{presave_url}" style="display:inline-block;background-color:#111111;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">PRE-SAVE NOW</a>
           </p>
           <p style="margin:0;">Thank you for being here.</p>
         </td></tr>
