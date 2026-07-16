@@ -223,8 +223,8 @@ class SendMassEmailView(View):
             body = {}
         test_email = body.get('test_email', '')
 
-        presave_url = “https://link.ghostpavilion.com/new-god”
-        subject = “New God drops tomorrow — pre-save it today”
+        presave_url = "https://link.ghostpavilion.com/new-god"
+        subject = "New God drops tomorrow — pre-save it today"
 
         if test_email:
             from collections import namedtuple
@@ -239,43 +239,43 @@ class SendMassEmailView(View):
         errors = []
 
         for subscriber in subscribers:
-            unsubscribe_url = f”https://ghostpavilion2025-production.up.railway.app/unsubscribe/{subscriber.unsubscribe_token}/”
+            unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{subscriber.unsubscribe_token}/"
 
-            html = f”””<!DOCTYPE html>
+            html = f"""<!DOCTYPE html>
 <html>
-<head><meta charset=”UTF-8”><meta name=”viewport” content=”width=device-width, initial-scale=1.0”></head>
-<body style=”margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ebebeb;”>
-  <table role=”presentation” cellspacing=”0” cellpadding=”0” border=”0” width=”100%” style=”margin:0;padding:0;background-color:#ebebeb;”>
-    <tr><td style=”padding:40px 20px;”>
-      <table role=”presentation” cellspacing=”0” cellpadding=”0” border=”0” width=”100%” style=”max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d0d0d0;”>
-        <tr><td style=”padding:40px 30px;text-align:center;background-color:#111111;”>
-          <h1 style=”margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;”>GHOST PAVILION</h1>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ebebeb;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;background-color:#ebebeb;">
+    <tr><td style="padding:40px 20px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d0d0d0;">
+        <tr><td style="padding:40px 30px;text-align:center;background-color:#111111;">
+          <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
-        <tr><td style=”padding:40px 30px;color:#111111;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;”>
-          <p style=”margin:0 0 25px 0;”>This is it. <strong>&ldquo;New God&rdquo;</strong> drops tomorrow, <strong>July 17th</strong>.</p>
-          <p style=”margin:0 0 25px 0;”>Today is the last day to pre-save it, and I am asking you to do that right now.</p>
-          <p style=”margin:0 0 25px 0;”>When you pre-save, the song lands in your library the moment it goes live. That means streams on day one. For an independent artist, those first 24-hour numbers are everything &mdash; they are what the algorithms use to decide whether to push a song to new listeners. Every pre-save directly affects that reach.</p>
-          <p style=”margin:0 0 25px 0;”>There are no labels, no promo budgets, no machine pushing this forward. Just the music and the people who show up. You are those people.</p>
-          <p style=”margin:0 0 25px 0;”>It takes less than a minute. Tap the button, pick your platform, and you are done.</p>
-          <p style=”margin:0 0 25px 0;text-align:center;”>
-            <a href=”{presave_url}” style=”display:inline-block;background-color:#111111;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;”>PRE-SAVE NOW</a>
+        <tr><td style="padding:40px 30px;color:#111111;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;">
+          <p style="margin:0 0 25px 0;">This is it. <strong>&ldquo;New God&rdquo;</strong> drops tomorrow, <strong>July 17th</strong>.</p>
+          <p style="margin:0 0 25px 0;">Today is the last day to pre-save it, and I am asking you to do that right now.</p>
+          <p style="margin:0 0 25px 0;">When you pre-save, the song lands in your library the moment it goes live. That means streams on day one. For an independent artist, those first 24-hour numbers are everything &mdash; they are what the algorithms use to decide whether to push a song to new listeners. Every pre-save directly affects that reach.</p>
+          <p style="margin:0 0 25px 0;">There are no labels, no promo budgets, no machine pushing this forward. Just the music and the people who show up. You are those people.</p>
+          <p style="margin:0 0 25px 0;">It takes less than a minute. Tap the button, pick your platform, and you are done.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">
+            <a href="{presave_url}" style="display:inline-block;background-color:#111111;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">PRE-SAVE NOW</a>
           </p>
-          <p style=”margin:0;”>Thank you for being here.</p>
+          <p style="margin:0;">Thank you for being here.</p>
         </td></tr>
-        <tr><td style=”padding:30px;text-align:center;background-color:#ebebeb;border-top:2px solid #111111;”>
-          <p style=”margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;”>GHOST PAVILION &copy; 2026</p>
-          <p style=”margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;”>
-            <a href=”https://ghostpavilion.com” style=”color:#111111;text-decoration:none;”>ghostpavilion.com</a>
+        <tr><td style="padding:30px;text-align:center;background-color:#ebebeb;border-top:2px solid #111111;">
+          <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
+          <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="https://ghostpavilion.com" style="color:#111111;text-decoration:none;">ghostpavilion.com</a>
           </p>
-          <p style=”margin:0;color:#888888;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;”>
-            <a href=”{unsubscribe_url}” style=”color:#888888;text-decoration:underline;”>Unsubscribe</a>
+          <p style="margin:0;color:#888888;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="{unsubscribe_url}" style="color:#888888;text-decoration:underline;">Unsubscribe</a>
           </p>
         </td></tr>
       </table>
     </td></tr>
   </table>
 </body>
-</html>”””
+</html>"""
 
             try:
                 message = Mail(
@@ -290,10 +290,10 @@ class SendMassEmailView(View):
                     sent += 1
                 else:
                     failed += 1
-                    errors.append(f”{subscriber.email}: status {response.status_code}”)
+                    errors.append(f"{subscriber.email}: status {response.status_code}")
             except Exception as e:
                 failed += 1
-                errors.append(f”{subscriber.email}: {str(e)}”)
+                errors.append(f"{subscriber.email}: {str(e)}")
 
         return JsonResponse({
             'total': total,
