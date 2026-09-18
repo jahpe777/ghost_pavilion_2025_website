@@ -206,8 +206,8 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
         return JsonResponse({
-            'subject': 'New God — watch it now',
-            'body_preview': 'The New God music video is out today',
+            'subject': 'Black Armor — pre-save the new single',
+            'body_preview': 'Black Armor is the new single',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -224,8 +224,8 @@ class SendMassEmailView(View):
             body = {}
         test_email = body.get('test_email', '')
 
-        video_url = "https://www.youtube.com/watch?v=8pbU6w0hJAE"
-        subject = "New God — watch it now"
+        presave_url = "https://link.ghostpavilion.com/black-armor"
+        subject = "Black Armor — pre-save the new single"
 
         if test_email:
             from collections import namedtuple
@@ -245,25 +245,26 @@ class SendMassEmailView(View):
             html = f"""<!DOCTYPE html>
 <html>
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
-<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ebebeb;">
-  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;background-color:#ebebeb;">
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;background-color:#ffffff;">
     <tr><td style="padding:40px 20px;">
-      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #d0d0d0;">
-        <tr><td style="padding:40px 30px;text-align:center;background-color:#111111;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;">
+        <tr><td style="padding:40px 30px;text-align:center;background-color:#222222;">
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
-        <tr><td style="padding:40px 30px;color:#111111;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
-          <p style="margin:0 0 25px 0;text-align:center;">The music video for <strong>&ldquo;New God&rdquo;</strong> is out today.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">Go watch it now.</p>
+        <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
+          <p style="margin:0 0 25px 0;text-align:center;">I have a new single. It is called <strong>&ldquo;Black Armor&rdquo;</strong>.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">Pre-save it now. When you do, it drops into your library automatically on release day and those day-one streams are what push it to new listeners.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">No labels, no promo budgets. Just you and the music.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
-            <a href="{video_url}" style="display:inline-block;background-color:#111111;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">WATCH NOW</a>
+            <a href="{presave_url}" style="display:inline-block;background-color:#222222;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">PRE-SAVE NOW</a>
           </p>
           <p style="margin:0;text-align:center;">Thank you for being here.</p>
         </td></tr>
-        <tr><td style="padding:30px;text-align:center;background-color:#ebebeb;border-top:2px solid #111111;">
+        <tr><td style="padding:30px;text-align:center;background-color:#f5f5f5;border-top:2px solid #222222;">
           <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
           <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
-            <a href="https://ghostpavilion.com" style="color:#111111;text-decoration:none;">ghostpavilion.com</a>
+            <a href="https://ghostpavilion.com" style="color:#222222;text-decoration:none;">ghostpavilion.com</a>
           </p>
           <p style="margin:0;color:#888888;font-size:10px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
             <a href="{unsubscribe_url}" style="color:#888888;text-decoration:underline;">Unsubscribe</a>
