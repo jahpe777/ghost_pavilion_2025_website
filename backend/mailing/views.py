@@ -206,8 +206,8 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
         return JsonResponse({
-            'subject': 'Black Armor — pre-save the new single',
-            'body_preview': 'Black Armor is the new single',
+            'subject': 'Pre-save the new single, "Black Armor"',
+            'body_preview': 'I have a new single coming out called Black Armor',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -225,7 +225,7 @@ class SendMassEmailView(View):
         test_email = body.get('test_email', '')
 
         presave_url = "https://link.ghostpavilion.com/black-armor"
-        subject = "Black Armor — pre-save the new single"
+        subject = 'Pre-save the new single, "Black Armor"'
 
         if test_email:
             from collections import namedtuple
@@ -253,9 +253,9 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
-          <p style="margin:0 0 25px 0;text-align:center;">I have a new single. It is called <strong>&ldquo;Black Armor&rdquo;</strong>.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">I have a new single coming out called <strong>&ldquo;Black Armor&rdquo;</strong>.</p>
           <p style="margin:0 0 25px 0;text-align:center;">Pre-save it now. When you do, it drops into your library automatically on release day and those day-one streams are what push it to new listeners.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">No labels, no promo budgets. Just you and the music.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">No labels. Just you and the music.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
             <a href="{presave_url}" style="display:inline-block;background-color:#222222;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">PRE-SAVE NOW</a>
           </p>
