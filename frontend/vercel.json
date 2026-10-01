@@ -2,8 +2,7 @@
   "buildCommand": "npm run build",
   "outputDirectory": "build",
   "installCommand": "npm install",
-  "nodeVersion": "24.x",
-  "rewrites": [
+"rewrites": [
     {
       "source": "/(.*)",
       "destination": "/index.html"
