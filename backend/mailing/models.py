@@ -6,7 +6,9 @@ class SignUp(models.Model):
     email = models.EmailField(unique=True)
     created_at = models.DateTimeField(auto_now_add=True)
     unsubscribe_token = models.UUIDField(default=uuid.uuid4, unique=True)
-    is_subscribed = models.BooleanField(default=True)
+    is_subscribed = models.BooleanField(default=False)
+    is_confirmed = models.BooleanField(default=False)
+    confirmation_token = models.UUIDField(default=uuid.uuid4, unique=True)
 
     def __str__(self):
         return f"{self.name} ({self.email})"

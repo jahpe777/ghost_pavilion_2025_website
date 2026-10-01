@@ -19,27 +19,29 @@ class SignUpCreateView(generics.CreateAPIView):
         email = request.data.get('email', '').lower().strip()
         name = request.data.get('name', '')
 
-        # Check if email already exists (including unsubscribed users)
         try:
             existing_user = SignUp.objects.get(email=email)
-            # If they were unsubscribed, re-subscribe them
-            if not existing_user.is_subscribed:
+            if not existing_user.is_confirmed:
+                # Resend confirmation email
+                self.send_confirmation_email(existing_user.email, existing_user.confirmation_token)
+                return JsonResponse({
+                    'message': 'Please check your email to confirm your subscription.',
+                    'email': email
+                }, status=200)
+            elif not existing_user.is_subscribed:
                 existing_user.is_subscribed = True
-                existing_user.name = name  # Update name in case it changed
+                existing_user.name = name
                 existing_user.save()
-                self.send_welcome_email(email, existing_user.unsubscribe_token)
                 return JsonResponse({
                     'message': 'Welcome back! You have been re-subscribed.',
                     'email': email
                 }, status=200)
             else:
-                # Already subscribed
                 return JsonResponse({
                     'message': 'You are already subscribed!',
                     'email': email
                 }, status=200)
         except SignUp.DoesNotExist:
-            # New user, proceed with normal creation
             pass
 
         serializer = self.get_serializer(data=request.data)
@@ -53,103 +55,54 @@ class SignUpCreateView(generics.CreateAPIView):
         return super().create(request, *args, **kwargs)
 
     def perform_create(self, serializer):
-        # Save the new SignUp instance
         sign_up_instance = serializer.save()
+        self.send_confirmation_email(sign_up_instance.email, sign_up_instance.confirmation_token)
 
-        # Send a welcome email via SendGrid
-        self.send_welcome_email(sign_up_instance.email, sign_up_instance.unsubscribe_token)
+    def send_confirmation_email(self, recipient_email, confirmation_token):
+        confirm_url = f"https://ghostpavilion2025-production.up.railway.app/confirm/{confirmation_token}/"
 
-    def send_welcome_email(self, recipient_email, unsubscribe_token):
-        # Build unsubscribe URL
-        unsubscribe_url = f"https://ghostpavilion2025-production.up.railway.app/unsubscribe/{unsubscribe_token}/"
+        html_content = f"""<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"></head>
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;">
+  <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin:0;padding:0;background-color:#ffffff;">
+    <tr><td style="padding:40px 20px;">
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width:600px;margin:0 auto;background-color:#ffffff;border-radius:8px;overflow:hidden;border:1px solid #e0e0e0;">
+        <tr><td style="padding:40px 30px;text-align:center;background-color:#222222;">
+          <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
+        </td></tr>
+        <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
+          <p style="margin:0 0 25px 0;text-align:center;">Thanks for signing up. Tap the button below to confirm your email and join the mailing list.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">
+            <a href="{confirm_url}" style="display:inline-block;background-color:#222222;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">CONFIRM EMAIL</a>
+          </p>
+          <p style="margin:0;text-align:center;color:#888888;font-size:13px;">If you did not sign up for this, you can ignore this email.</p>
+        </td></tr>
+        <tr><td style="padding:30px;text-align:center;background-color:#f5f5f5;border-top:2px solid #222222;">
+          <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
+          <p style="margin:0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">
+            <a href="https://ghostpavilion.com" style="color:#222222;text-decoration:none;">ghostpavilion.com</a>
+          </p>
+        </td></tr>
+      </table>
+    </td></tr>
+  </table>
+</body>
+</html>"""
 
-        # Construct the HTML email template
-        html_content = f"""
-        <!DOCTYPE html>
-        <html>
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        </head>
-        <body style="margin: 0; padding: 0; font-family: Verdana, Arial, sans-serif; background: linear-gradient(135deg, #ff00ff, #ff0033, #ff6600, #ff0080); background-size: 200% 200%;">
-            <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="margin: 0; padding: 0;">
-                <tr>
-                    <td style="padding: 40px 20px;">
-                        <table role="presentation" cellspacing="0" cellpadding="0" border="0" width="100%" style="max-width: 600px; margin: 0 auto; background-color: rgba(0, 0, 0, 0.7); border-radius: 8px; overflow: hidden;">
-                            <!-- Header -->
-                            <tr>
-                                <td style="padding: 40px 30px; text-align: center; background: linear-gradient(135deg, rgba(255, 0, 255, 0.3), rgba(255, 0, 51, 0.3), rgba(255, 102, 0, 0.3));">
-                                    <h1 style="margin: 0; color: #ffffff; font-size: 36px; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; font-family: 'Impact', 'Arial Black', Verdana, sans-serif;">
-                                        GHOST PAVILION
-                                    </h1>
-                                </td>
-                            </tr>
-
-                            <!-- Main Content -->
-                            <tr>
-                                <td style="padding: 40px 30px; color: #ffffff; font-family: Verdana, Arial, sans-serif; text-align: center;">
-                                    <h2 style="margin: 0 0 20px 0; color: #ff6600; font-size: 24px; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; font-family: Verdana, Arial, sans-serif;">
-                                        WELCOME TO THE PAVILION
-                                    </h2>
-
-                                    <p style="margin: 0 0 20px 0; color: #ffffff; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        Thank you for joining the Ghost Pavilion mailing list!
-                                    </p>
-
-                                    <p style="margin: 0 0 20px 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        You're now part of our inner circle. Here's what you can expect from us:
-                                    </p>
-
-                                    <ul style="margin: 0 0 20px 0; padding: 0; list-style: none; color: #ffffff; font-size: 16px; line-height: 1.8; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        <li style="margin-bottom: 10px;">🎵 Early access to new releases</li>
-                                        <li style="margin-bottom: 10px;">🎟️ Show announcements and exclusive ticket access</li>
-                                        <li style="margin-bottom: 10px;">👕 Special discounts on merch drops</li>
-                                        <li style="margin-bottom: 10px;">🎬 Behind-the-scenes content and music videos</li>
-                                        <li style="margin-bottom: 10px;">✨ Exclusive updates you won't find anywhere else</li>
-                                    </ul>
-
-                                    <p style="margin: 20px 0 0 0; color: #cccccc; font-size: 16px; line-height: 1.6; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        Stay tuned for our next release coming soon.
-                                    </p>
-                                </td>
-                            </tr>
-
-                            <!-- Footer -->
-                            <tr>
-                                <td style="padding: 30px; text-align: center; background-color: rgba(0, 0, 0, 0.5); border-top: 2px solid #ff6600;">
-                                    <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        GHOST PAVILION © 2025
-                                    </p>
-                                    <p style="margin: 0 0 10px 0; color: #999999; font-size: 12px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        <a href="https://ghostpavilion.com" style="color: #ff6600; text-decoration: none;">ghostpavilion.com</a>
-                                    </p>
-                                    <p style="margin: 0; color: #666666; font-size: 10px; letter-spacing: 1px; font-family: Verdana, Arial, sans-serif;">
-                                        <a href="{unsubscribe_url}" style="color: #666666; text-decoration: underline;">Unsubscribe</a>
-                                    </p>
-                                </td>
-                            </tr>
-                        </table>
-                    </td>
-                </tr>
-            </table>
-        </body>
-        </html>
-        """
-
-        # Construct the email message
         message = Mail(
             from_email=settings.FROM_EMAIL,
             to_emails=recipient_email,
-            subject='Welcome to Ghost Pavilion',
+            subject='Confirm your Ghost Pavilion subscription',
             html_content=html_content
         )
 
         try:
             sg = SendGridAPIClient(settings.SENDGRID_API_KEY)
             response = sg.send(message)
-            print(f"Email sent to {recipient_email} with status code: {response.status_code}")
+            print(f"Confirmation email sent to {recipient_email}: {response.status_code}")
         except Exception as e:
-            print(f"Error sending email: {e}")
+            print(f"Error sending confirmation email: {e}")
 
 
 class UnsubscribeView(View):
@@ -194,6 +147,46 @@ class UnsubscribeView(View):
             return HttpResponse("Invalid unsubscribe link.", status=400)
 
 
+class ConfirmEmailView(View):
+    """Handle email confirmation via link clicked from confirmation email."""
+
+    def get(self, request, token):
+        try:
+            subscriber = get_object_or_404(SignUp, confirmation_token=token)
+            subscriber.is_confirmed = True
+            subscriber.is_subscribed = True
+            subscriber.save()
+
+            html_content = """<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmed - Ghost Pavilion</title>
+</head>
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div style="max-width:500px;margin:40px auto;padding:40px;background-color:#ffffff;border:1px solid #e0e0e0;border-radius:8px;text-align:center;">
+        <h1 style="color:#222222;font-size:28px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;margin-bottom:20px;font-family:'Impact','Arial Black',Verdana,sans-serif;">
+            GHOST PAVILION
+        </h1>
+        <p style="color:#222222;font-size:18px;margin-bottom:20px;">
+            You are in.
+        </p>
+        <p style="color:#555555;font-size:14px;margin-bottom:30px;">
+            Your email has been confirmed. You will receive updates on new music, videos, and releases.
+        </p>
+        <a href="https://ghostpavilion.com" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">
+            VISIT WEBSITE
+        </a>
+    </div>
+</body>
+</html>"""
+            return HttpResponse(html_content)
+
+        except Exception as e:
+            return HttpResponse("Invalid confirmation link.", status=400)
+
+
 @method_decorator(csrf_exempt, name='dispatch')
 class SendMassEmailView(View):
     """Protected endpoint to trigger the music video mass email send."""
@@ -204,7 +197,7 @@ class SendMassEmailView(View):
         key = request.headers.get('X-Admin-Key', '')
         if key != self.ADMIN_KEY:
             return JsonResponse({'error': 'Unauthorized'}, status=403)
-        subscribers = SignUp.objects.filter(is_subscribed=True).values_list('name', 'email')
+        subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True).values_list('name', 'email')
         return JsonResponse({
             'subject': 'Pre-save the new single, "Black Armor"',
             'body_preview': 'I have a new single coming out called Black Armor',
@@ -232,7 +225,7 @@ class SendMassEmailView(View):
             FakeSub = namedtuple('FakeSub', ['email', 'unsubscribe_token'])
             subscribers = [FakeSub(email=test_email, unsubscribe_token='test')]
         else:
-            subscribers = SignUp.objects.filter(is_subscribed=True)
+            subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True)
 
         total = len(subscribers) if test_email else subscribers.count()
         sent = 0
