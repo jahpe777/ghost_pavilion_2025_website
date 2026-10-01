@@ -42,7 +42,7 @@ const SignUpPage = () => {
       <p className="signup-subtext">
         Get notified about exclusive content, merch, and event drops
       </p>
-      {success && <p className="success-msg">Thank you for signing up!</p>}
+      {success && <p className="success-msg">Please check your email to confirm.</p>}
       {error && <p className="error-msg">{error}</p>}
       <form onSubmit={handleSubmit}>
         <input
