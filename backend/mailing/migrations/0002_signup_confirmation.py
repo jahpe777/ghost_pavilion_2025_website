@@ -2,14 +2,6 @@ import uuid
 from django.db import migrations, models
 
 
-def populate_confirmation_tokens(apps, schema_editor):
-    db_alias = schema_editor.connection.alias
-    SignUp = apps.get_model('mailing', 'SignUp')
-    for signup in SignUp.objects.using(db_alias).filter(confirmation_token__isnull=True):
-        signup.confirmation_token = uuid.uuid4()
-        signup.save(update_fields=['confirmation_token'])
-
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -27,9 +19,12 @@ class Migration(migrations.Migration):
             sql="ALTER TABLE mailing_signup ADD COLUMN IF NOT EXISTS confirmation_token uuid NULL",
             reverse_sql="ALTER TABLE mailing_signup DROP COLUMN IF EXISTS confirmation_token",
         ),
-        # Assign a unique UUID to every existing row
-        migrations.RunPython(populate_confirmation_tokens, migrations.RunPython.noop),
-        # Now make it NOT NULL and unique
+        # Assign unique UUIDs per row using PostgreSQL native function
+        migrations.RunSQL(
+            sql="UPDATE mailing_signup SET confirmation_token = gen_random_uuid() WHERE confirmation_token IS NULL",
+            reverse_sql=migrations.RunSQL.noop,
+        ),
+        # Make NOT NULL and add unique constraint
         migrations.RunSQL(
             sql="""
                 ALTER TABLE mailing_signup ALTER COLUMN confirmation_token SET NOT NULL;
@@ -45,7 +40,7 @@ class Migration(migrations.Migration):
             sql="ALTER TABLE mailing_signup ALTER COLUMN is_subscribed SET DEFAULT false",
             reverse_sql="ALTER TABLE mailing_signup ALTER COLUMN is_subscribed SET DEFAULT true",
         ),
-        # Sync Django's migration state tracker
+        # Sync Django's migration state
         migrations.SeparateDatabaseAndState(
             database_operations=[],
             state_operations=[
