@@ -200,7 +200,7 @@ class SendMassEmailView(View):
         subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True).values_list('name', 'email')
         return JsonResponse({
             'subject': 'Pre-save "Black Armor" — why it matters',
-            'body_preview': 'Pre-saving takes about ten seconds and it makes a real difference',
+            'body_preview': 'My new single Black Armor is coming out October 16th',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -246,6 +246,7 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
+          <p style="margin:0 0 25px 0;text-align:center;">My new single <strong>&ldquo;Black Armor&rdquo;</strong> is coming out October 16th.</p>
           <p style="margin:0 0 25px 0;text-align:center;">Pre-saving takes about ten seconds and it makes a real difference.</p>
           <p style="margin:0 0 25px 0;text-align:center;">When you pre-save a song, it gets added to your library the moment it drops. And for an independent artist, every pre-save signals to streaming platforms that there is real demand for this music. It tells their algorithms to pay attention when the song is new, which is the window that matters most.</p>
           <p style="margin:0 0 25px 0;text-align:center;">Pre-saves don&rsquo;t cost anything. They&rsquo;re one of the most direct ways to support independent music.</p>
