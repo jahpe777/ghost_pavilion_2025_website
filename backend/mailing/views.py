@@ -199,8 +199,8 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True).values_list('name', 'email')
         return JsonResponse({
-            'subject': 'Pre-save "Black Armor" — why it matters',
-            'body_preview': 'My new single Black Armor is coming out October 16th',
+            'subject': '"Black Armor" is out Friday — last chance to pre-save',
+            'body_preview': 'My new single Black Armor comes out this Friday, October 16th',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -218,7 +218,7 @@ class SendMassEmailView(View):
         test_email = body.get('test_email', '')
 
         presave_url = "https://link.ghostpavilion.com/black-armor"
-        subject = 'Pre-save "Black Armor" — why it matters'
+        subject = '"Black Armor" is out Friday — last chance to pre-save'
 
         if test_email:
             from collections import namedtuple
@@ -246,14 +246,14 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
-          <p style="margin:0 0 25px 0;text-align:center;">My new single <strong>&ldquo;Black Armor&rdquo;</strong> is coming out October 16th.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">Pre-saving takes about ten seconds and it makes a real difference.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">When you pre-save a song, it gets added to your library the moment it drops. And for an independent artist, every pre-save signals to streaming platforms that there is real demand for this music. It tells their algorithms to pay attention when the song is new, which is the window that matters most.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">Pre-saves don&rsquo;t cost anything. They&rsquo;re one of the most direct ways to support independent music.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">My new single <strong>&ldquo;Black Armor&rdquo;</strong> comes out this Friday, October 16th. That&rsquo;s just two days away.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">If you haven&rsquo;t pre-saved it yet, now is the time. It takes about ten seconds, and the song will be waiting in your library the moment it drops.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">Pre-saves in the final days before a release carry the most weight. They show streaming platforms that people are waiting for this song, which helps it reach new listeners on release day.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">Already pre-saved? Thank you. Sharing the link with a friend who might like it helps just as much.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
             <a href="{presave_url}" style="display:inline-block;background-color:#222222;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">PRE-SAVE NOW</a>
           </p>
-          <p style="margin:0;text-align:center;">Thank you for being here.</p>
+          <p style="margin:0;text-align:center;">See you Friday.</p>
         </td></tr>
         <tr><td style="padding:30px;text-align:center;background-color:#f5f5f5;border-top:2px solid #222222;">
           <p style="margin:0 0 10px 0;color:#555555;font-size:12px;letter-spacing:1px;font-family:Verdana,Arial,sans-serif;">GHOST PAVILION &copy; 2026</p>
