@@ -3,6 +3,13 @@ import "./ListenPage.css";
 
 const bandcampEmbeds = [
   {
+    title: "black-armor",
+    src: "https://bandcamp.com/EmbeddedPlayer/track=92357949/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/transparent=true/",
+    link: "https://ghostpavilion.bandcamp.com/track/black-armor",
+    text: "Black Armor by Ghost Pavilion",
+    type: "track",
+  },
+  {
     title: "new-god",
     src: "https://bandcamp.com/EmbeddedPlayer/track=1133282817/size=large/bgcol=333333/linkcol=0f91ff/tracklist=false/transparent=true/",
     link: "https://ghostpavilion.bandcamp.com/track/new-god",
