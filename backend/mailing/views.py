@@ -199,8 +199,8 @@ class SendMassEmailView(View):
             return JsonResponse({'error': 'Unauthorized'}, status=403)
         subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True).values_list('name', 'email')
         return JsonResponse({
-            'subject': '"Black Armor" is out now!',
-            'body_preview': 'My new single Black Armor is out now',
+            'subject': '"Black Armor" has been out for a week',
+            'body_preview': 'It has been one week since Black Armor came out',
             'total': subscribers.count(),
             'subscribers': [{'name': n, 'email': e} for n, e in subscribers]
         })
@@ -218,7 +218,7 @@ class SendMassEmailView(View):
         test_email = body.get('test_email', '')
 
         listen_url = "https://link.ghostpavilion.com/black-armor"
-        subject = '"Black Armor" is out now!'
+        subject = '"Black Armor" has been out for a week'
 
         if test_email:
             from collections import namedtuple
@@ -246,9 +246,9 @@ class SendMassEmailView(View):
           <h1 style="margin:0;color:#ffffff;font-size:36px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;font-family:'Impact','Arial Black',Verdana,sans-serif;">GHOST PAVILION</h1>
         </td></tr>
         <tr><td style="padding:40px 30px;color:#222222;font-family:Verdana,Arial,sans-serif;font-size:16px;line-height:1.8;text-align:center;">
-          <p style="margin:0 0 25px 0;text-align:center;">My new single <strong>&ldquo;Black Armor&rdquo;</strong> is out now.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">Thank you to everyone who pre-saved it. It&rsquo;s now streaming everywhere, and I&rsquo;d love for you to give it a listen.</p>
-          <p style="margin:0 0 25px 0;text-align:center;">If it connects with you, adding it to a playlist or sharing it with a friend goes a long way.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">It&rsquo;s been one week since my new single <strong>&ldquo;Black Armor&rdquo;</strong> came out.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">Thank you to everyone who has already listened, shared it, and added it to their playlists. It means a lot.</p>
+          <p style="margin:0 0 25px 0;text-align:center;">If you haven&rsquo;t heard it yet, go ahead and take a listen. It&rsquo;s streaming everywhere now.</p>
           <p style="margin:0 0 25px 0;text-align:center;">
             <a href="{listen_url}" style="display:inline-block;background-color:#222222;color:#ffffff;padding:14px 40px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;font-family:Verdana,Arial,sans-serif;">LISTEN NOW</a>
           </p>
