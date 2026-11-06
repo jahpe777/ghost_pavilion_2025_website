@@ -105,46 +105,66 @@ class SignUpCreateView(generics.CreateAPIView):
             print(f"Error sending confirmation email: {e}")
 
 
+def gp_page(title, heading, message, button_html):
+    """Simple branded page used by the confirm and unsubscribe links."""
+    return f"""<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<title>{title} - Ghost Pavilion</title>
+</head>
+<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+<div style="max-width:500px;margin:40px auto;padding:40px;background-color:#ffffff;border:1px solid #e0e0e0;border-radius:8px;text-align:center;">
+    <h1 style="color:#222222;font-size:28px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;margin-bottom:20px;font-family:'Impact','Arial Black',Verdana,sans-serif;">
+        GHOST PAVILION
+    </h1>
+    <p style="color:#222222;font-size:18px;margin-bottom:20px;">
+        {heading}
+    </p>
+    <p style="color:#555555;font-size:14px;margin-bottom:30px;">
+        {message}
+    </p>
+    {button_html}
+</div>
+</body>
+</html>"""
+
+
+@method_decorator(csrf_exempt, name='dispatch')
 class UnsubscribeView(View):
-    """Handle unsubscribe requests via GET (clicked from email link)"""
+    """Unsubscribe. GET shows a button; only the POST from that button unsubscribes,
+    so email scanners opening the link can't silently unsubscribe someone."""
 
     def get(self, request, token):
-        try:
-            subscriber = get_object_or_404(SignUp, unsubscribe_token=token)
-            subscriber.is_subscribed = False
-            subscriber.save()
-
-            # Return a styled confirmation page
-            html_content = """
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <meta charset="UTF-8">
-                <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                <title>Unsubscribed - Ghost Pavilion</title>
-            </head>
-            <body style="margin: 0; padding: 0; font-family: Verdana, Arial, sans-serif; background: linear-gradient(135deg, #ff00ff, #ff0033, #ff6600, #ff0080); min-height: 100vh; display: flex; align-items: center; justify-content: center;">
-                <div style="max-width: 500px; margin: 40px auto; padding: 40px; background-color: rgba(0, 0, 0, 0.8); border-radius: 8px; text-align: center;">
-                    <h1 style="color: #ffffff; font-size: 28px; font-weight: bold; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 20px;">
-                        GHOST PAVILION
-                    </h1>
-                    <p style="color: #ffffff; font-size: 18px; margin-bottom: 20px;">
-                        You've been unsubscribed.
-                    </p>
-                    <p style="color: #cccccc; font-size: 14px; margin-bottom: 30px;">
-                        We're sorry to see you go. You will no longer receive emails from us.
-                    </p>
-                    <a href="https://ghostpavilion.com" style="display: inline-block; background: linear-gradient(135deg, #ff0080, #ff6600); color: #ffffff; padding: 12px 30px; font-size: 14px; font-weight: bold; text-decoration: none; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase;">
-                        VISIT WEBSITE
-                    </a>
-                </div>
-            </body>
-            </html>
-            """
-            return HttpResponse(html_content)
-
-        except Exception as e:
+        subscriber = SignUp.objects.filter(unsubscribe_token=token).first()
+        if subscriber is None:
             return HttpResponse("Invalid unsubscribe link.", status=400)
+        if not subscriber.is_subscribed:
+            return self.unsubscribed_page()
+        return HttpResponse(gp_page(
+            'Unsubscribe',
+            'Unsubscribe from Ghost Pavilion?',
+            'Tap the button below and you will no longer receive emails from us.',
+            '<form method="post" style="margin:0;"><button type="submit" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;border:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:Verdana,Arial,sans-serif;">UNSUBSCRIBE</button></form>'
+        ))
+
+    def post(self, request, token):
+        subscriber = SignUp.objects.filter(unsubscribe_token=token).first()
+        if subscriber is None:
+            return HttpResponse("Invalid unsubscribe link.", status=400)
+        subscriber.is_subscribed = False
+        subscriber.save()
+        return self.unsubscribed_page()
+
+    def unsubscribed_page(self):
+        return HttpResponse(gp_page(
+            'Unsubscribed',
+            "You've been unsubscribed.",
+            "We're sorry to see you go. You will no longer receive emails from us.",
+            '<a href="https://ghostpavilion.com" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">VISIT WEBSITE</a>'
+        ))
 
 
 @method_decorator(csrf_exempt, name='dispatch')
@@ -155,33 +175,9 @@ class ConfirmEmailView(View):
     let bots sign up real people's work addresses and get them auto-confirmed.
     """
 
-    def page(self, heading, message, button_html):
-        return f"""<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="robots" content="noindex">
-    <title>Confirm - Ghost Pavilion</title>
-</head>
-<body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;min-height:100vh;display:flex;align-items:center;justify-content:center;">
-    <div style="max-width:500px;margin:40px auto;padding:40px;background-color:#ffffff;border:1px solid #e0e0e0;border-radius:8px;text-align:center;">
-        <h1 style="color:#222222;font-size:28px;font-weight:bold;letter-spacing:4px;text-transform:uppercase;margin-bottom:20px;font-family:'Impact','Arial Black',Verdana,sans-serif;">
-            GHOST PAVILION
-        </h1>
-        <p style="color:#222222;font-size:18px;margin-bottom:20px;">
-            {heading}
-        </p>
-        <p style="color:#555555;font-size:14px;margin-bottom:30px;">
-            {message}
-        </p>
-        {button_html}
-    </div>
-</body>
-</html>"""
-
     def confirmed_page(self):
-        return HttpResponse(self.page(
+        return HttpResponse(gp_page(
+            'Confirmed',
             'You are in.',
             'Your email has been confirmed. You will receive updates on new music, videos, and releases.',
             '<a href="https://ghostpavilion.com" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">VISIT WEBSITE</a>'
@@ -193,7 +189,8 @@ class ConfirmEmailView(View):
             return HttpResponse("Invalid confirmation link.", status=400)
         if subscriber.is_confirmed:
             return self.confirmed_page()
-        return HttpResponse(self.page(
+        return HttpResponse(gp_page(
+            'Confirm',
             'One more step.',
             'Tap the button below to confirm your subscription to the Ghost Pavilion mailing list.',
             '<form method="post" style="margin:0;"><button type="submit" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;border:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:Verdana,Arial,sans-serif;">CONFIRM SUBSCRIPTION</button></form>'
