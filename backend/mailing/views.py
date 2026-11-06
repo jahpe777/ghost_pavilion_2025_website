@@ -29,11 +29,13 @@ class SignUpCreateView(generics.CreateAPIView):
                     'email': email
                 }, status=200)
             elif not existing_user.is_subscribed:
-                existing_user.is_subscribed = True
-                existing_user.name = name
+                # Re-subscribing goes through the confirm button too, so a bot can't
+                # re-add someone who opted out. The confirm view sets is_subscribed again.
+                existing_user.is_confirmed = False
                 existing_user.save()
+                self.send_confirmation_email(existing_user.email, existing_user.confirmation_token)
                 return JsonResponse({
-                    'message': 'Welcome back! You have been re-subscribed.',
+                    'message': 'Welcome back! Please check your email to confirm your subscription.',
                     'email': email
                 }, status=200)
             else:
