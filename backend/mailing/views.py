@@ -242,7 +242,9 @@ class SendMassEmailView(View):
         if test_email:
             from collections import namedtuple
             FakeSub = namedtuple('FakeSub', ['email', 'unsubscribe_token'])
-            subscribers = [FakeSub(email=test_email, unsubscribe_token='test')]
+            # Use the real row when the address is on the list, so its unsubscribe link works
+            real = SignUp.objects.filter(email=test_email.lower().strip()).first()
+            subscribers = [real or FakeSub(email=test_email, unsubscribe_token='test')]
         else:
             subscribers = SignUp.objects.filter(is_subscribed=True, is_confirmed=True)
 
