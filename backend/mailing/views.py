@@ -147,22 +147,22 @@ class UnsubscribeView(View):
             return HttpResponse("Invalid unsubscribe link.", status=400)
 
 
+@method_decorator(csrf_exempt, name='dispatch')
 class ConfirmEmailView(View):
-    """Handle email confirmation via link clicked from confirmation email."""
+    """Confirm a subscription. GET shows a button; only the POST from that button confirms.
 
-    def get(self, request, token):
-        try:
-            subscriber = get_object_or_404(SignUp, confirmation_token=token)
-            subscriber.is_confirmed = True
-            subscriber.is_subscribed = True
-            subscriber.save()
+    Corporate email scanners open every link in incoming mail, so confirming on GET
+    let bots sign up real people's work addresses and get them auto-confirmed.
+    """
 
-            html_content = """<!DOCTYPE html>
+    def page(self, heading, message, button_html):
+        return f"""<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Confirmed - Ghost Pavilion</title>
+    <meta name="robots" content="noindex">
+    <title>Confirm - Ghost Pavilion</title>
 </head>
 <body style="margin:0;padding:0;font-family:Verdana,Arial,sans-serif;background-color:#ffffff;min-height:100vh;display:flex;align-items:center;justify-content:center;">
     <div style="max-width:500px;margin:40px auto;padding:40px;background-color:#ffffff;border:1px solid #e0e0e0;border-radius:8px;text-align:center;">
@@ -170,21 +170,43 @@ class ConfirmEmailView(View):
             GHOST PAVILION
         </h1>
         <p style="color:#222222;font-size:18px;margin-bottom:20px;">
-            You are in.
+            {heading}
         </p>
         <p style="color:#555555;font-size:14px;margin-bottom:30px;">
-            Your email has been confirmed. You will receive updates on new music, videos, and releases.
+            {message}
         </p>
-        <a href="https://ghostpavilion.com" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">
-            VISIT WEBSITE
-        </a>
+        {button_html}
     </div>
 </body>
 </html>"""
-            return HttpResponse(html_content)
 
-        except Exception as e:
+    def confirmed_page(self):
+        return HttpResponse(self.page(
+            'You are in.',
+            'Your email has been confirmed. You will receive updates on new music, videos, and releases.',
+            '<a href="https://ghostpavilion.com" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;text-decoration:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;">VISIT WEBSITE</a>'
+        ))
+
+    def get(self, request, token):
+        subscriber = SignUp.objects.filter(confirmation_token=token).first()
+        if subscriber is None:
             return HttpResponse("Invalid confirmation link.", status=400)
+        if subscriber.is_confirmed:
+            return self.confirmed_page()
+        return HttpResponse(self.page(
+            'One more step.',
+            'Tap the button below to confirm your subscription to the Ghost Pavilion mailing list.',
+            '<form method="post" style="margin:0;"><button type="submit" style="display:inline-block;background-color:#222222;color:#ffffff;padding:12px 30px;font-size:14px;font-weight:bold;border:none;border-radius:4px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-family:Verdana,Arial,sans-serif;">CONFIRM SUBSCRIPTION</button></form>'
+        ))
+
+    def post(self, request, token):
+        subscriber = SignUp.objects.filter(confirmation_token=token).first()
+        if subscriber is None:
+            return HttpResponse("Invalid confirmation link.", status=400)
+        subscriber.is_confirmed = True
+        subscriber.is_subscribed = True
+        subscriber.save()
+        return self.confirmed_page()
 
 
 @method_decorator(csrf_exempt, name='dispatch')
